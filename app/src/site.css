@@ -1912,3 +1912,30 @@ body.site {
     font-size: 16px;
   }
 }
+
+/* ---------- header never overlaps hero copy ---------- */
+
+/* Reserve room for the fixed header so the hero copy can never slide under
+   it, even in short in-app browsers where the copy fills the viewport. */
+.hero {
+  padding-top: calc(env(safe-area-inset-top) + 104px);
+}
+
+@media (max-width: 760px) {
+  .hero {
+    padding-top: calc(env(safe-area-inset-top) + 88px);
+  }
+  /* soft fade behind the transparent header so it stays legible over the film */
+  .masthead::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 -28px 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(43, 26, 30, 0.82) 0%, rgba(43, 26, 30, 0.55) 60%, rgba(43, 26, 30, 0) 100%);
+    pointer-events: none;
+    transition: opacity 0.5s var(--ease);
+  }
+  .masthead.is-solid::before {
+    opacity: 0;
+  }
+}

@@ -723,7 +723,7 @@ function Footer() {
         <a href="#reviews">Reviews</a>
         <a href="#visit">Visit</a>
         <a href={SITE.instagramHref} target="_blank" rel="noopener">
-          Instagram {SITE.instagramHandle}
+          Instagram
         </a>
       </div>
       <p className="footer__legal">© {new Date().getFullYear()} Elena Beauty Expert</p>

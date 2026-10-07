@@ -1733,6 +1733,9 @@ body.site {
     bottom: auto;
     left: auto;
   }
+  .clinic__shot--room {
+    width: 100%;
+  }
   .clinic__shot--arch {
     width: 62%;
     margin: -30px auto 0;

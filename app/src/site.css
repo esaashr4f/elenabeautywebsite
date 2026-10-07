@@ -1567,3 +1567,186 @@ body.site {
     columns: 1;
   }
 }
+
+/* ---------- instagram ---------- */
+
+.ig-link {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-right: -10px;
+  border-radius: 50%;
+  transition:
+    background 0.35s var(--ease),
+    color 0.35s var(--ease);
+}
+.ig-link svg {
+  width: 21px;
+  height: 21px;
+}
+.ig-link:hover {
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
+
+.insta {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+  gap: clamp(40px, 7vw, 110px);
+  align-items: center;
+  padding: clamp(96px, 12vw, 160px) var(--gutter);
+  background: var(--porcelain);
+}
+.insta > * {
+  min-width: 0;
+}
+.insta__intro p:not(.kicker) {
+  max-width: 400px;
+  color: var(--rosewood-soft);
+}
+.ig-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+  padding: 8px 24px 8px 8px;
+  border-radius: 999px;
+  background: var(--rosewood);
+  color: var(--porcelain) !important;
+  text-decoration: none;
+  font-size: 15px;
+  transition: translate 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.ig-cta strong {
+  font-weight: 700;
+}
+.ig-cta__ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: conic-gradient(from 210deg, var(--champagne), var(--blush), var(--blush-deep), var(--champagne));
+  color: var(--rosewood);
+}
+.ig-cta__ring svg {
+  width: 22px;
+  height: 22px;
+  transition: rotate 0.6s var(--ease);
+}
+.ig-cta:hover {
+  translate: 0 -2px;
+  box-shadow: 0 20px 40px -20px rgba(58, 35, 40, 0.6);
+}
+.ig-cta:hover .ig-cta__ring svg {
+  rotate: -12deg;
+}
+
+.insta__grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(8px, 1.2vw, 16px);
+}
+.insta__tile a {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 18px;
+  background: var(--mist);
+}
+.insta__tile--2 a {
+  border-radius: 999px 999px 18px 18px;
+}
+.insta__tile--6 a {
+  border-radius: 18px 18px 999px 999px;
+}
+.insta__tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: scale 0.9s var(--ease);
+}
+.insta__hover {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(58, 35, 40, 0.45);
+  color: var(--porcelain);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+}
+.insta__hover svg {
+  width: 34px;
+  height: 34px;
+}
+.insta__tile a:hover img,
+.insta__tile a:focus-visible img {
+  scale: 1.06;
+}
+.insta__tile a:hover .insta__hover,
+.insta__tile a:focus-visible .insta__hover {
+  opacity: 1;
+}
+
+/* ---------- clinic band: three real photos ---------- */
+
+.clinic__shot--room {
+  width: 58%;
+}
+.clinic__shot--arch {
+  left: auto;
+  right: 0;
+  top: -2%;
+  width: 27%;
+  aspect-ratio: 760 / 1319;
+  border-radius: 999px 999px 20px 20px;
+}
+.clinic__shot--hands {
+  right: 22%;
+  bottom: 0;
+  width: 44%;
+}
+
+.masthead__nav {
+  margin-left: auto;
+  margin-right: 8px;
+}
+
+@media (max-width: 960px) {
+  .ig-link {
+    margin-left: auto;
+  }
+  .insta {
+    grid-template-columns: 1fr;
+  }
+  .clinic__shot--room,
+  .clinic__shot--arch,
+  .clinic__shot--hands {
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+  }
+  .clinic__shot--arch {
+    width: 62%;
+    margin: -30px auto 0;
+    order: 2;
+  }
+  .clinic__shot--hands {
+    width: 86%;
+    order: 3;
+    margin: -50px 0 0 auto;
+  }
+}
+@media (max-width: 560px) {
+  .ig-link {
+    width: 38px;
+    height: 38px;
+  }
+}

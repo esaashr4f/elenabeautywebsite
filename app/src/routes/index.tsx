@@ -46,6 +46,7 @@ function Index() {
         <Prices />
         <Clinic />
         <Reviews />
+        <Instagram />
         <Visit />
       </main>
       <Footer />
@@ -63,6 +64,16 @@ function Mark({ className }: { className?: string }) {
         fill="var(--blush)"
       />
       <path d="M45 24c5-1 8 1 9 5-5 1-8-1-9-5z" fill="var(--sage)" />
+    </svg>
+  );
+}
+
+function InstagramGlyph({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <rect x="3" y="3" width="18" height="18" rx="5.2" fill="none" stroke="currentColor" strokeWidth="1.7" />
+      <circle cx="12" cy="12" r="4.1" fill="none" stroke="currentColor" strokeWidth="1.7" />
+      <circle cx="17.3" cy="6.7" r="1.15" fill="currentColor" />
     </svg>
   );
 }
@@ -103,6 +114,15 @@ function Header() {
         <a href="#reviews">Reviews</a>
         <a href="#visit">Visit</a>
       </nav>
+      <a
+        className="ig-link"
+        href={SITE.instagramHref}
+        target="_blank"
+        rel="noopener"
+        aria-label={`Elena Beauty Expert on Instagram, ${SITE.instagramHandle}`}
+      >
+        <InstagramGlyph />
+      </a>
       <a className="arch-call" href={SITE.phoneHref}>
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" />
@@ -424,22 +444,32 @@ function Clinic() {
   return (
     <section className="clinic" aria-labelledby="clinic-title">
       <div className="clinic__stage">
-        <div className="clinic__shot clinic__shot--room" data-speed="0.24">
+        <div className="clinic__shot clinic__shot--room" data-speed="0.22">
           <img
             src="/assets/clinic-room.webp"
-            alt="The treatment room with a fur-draped bed, skylight and shelves of skincare"
+            alt="A treatment room with a fur-draped bed, skylight and shelves of skincare"
             width={1400}
             height={867}
             loading="lazy"
             decoding="async"
           />
         </div>
-        <div className="clinic__shot clinic__shot--hands" data-speed="-0.12">
+        <div className="clinic__shot clinic__shot--arch" data-speed="-0.16">
           <img
-            src="/assets/elena-treatment.webp"
-            alt="Elena performing a laser facial on a client wearing a mask and eye protection"
+            src="/assets/arch-lounge.webp"
+            alt="The backlit arch with the Elena Beauty Expert logo above a velvet sofa in the waiting area"
+            width={760}
+            height={1319}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div className="clinic__shot clinic__shot--hands" data-speed="-0.08">
+          <img
+            src="/assets/elena-mirror.webp"
+            alt="Elena holding a mirror as she talks a client through her skin during a consultation"
             width={1400}
-            height={817}
+            height={876}
             loading="lazy"
             decoding="async"
           />
@@ -497,12 +527,58 @@ function Reviews() {
   );
 }
 
+const INSTAGRAM_TILES = [
+  { src: "/assets/elena-laser.webp", alt: "Elena performing a carbon laser peel" },
+  { src: "/assets/arch-lounge.webp", alt: "The backlit logo arch in the waiting area" },
+  { src: "/assets/facial-mask.webp", alt: "A cleansing mask being removed during a facial" },
+  { src: "/assets/elena-mirror.webp", alt: "Elena with a client during a consultation" },
+  { src: "/assets/laser-suite.webp", alt: "The laser treatment suite" },
+  { src: "/assets/elena-portrait.webp", alt: "Elena at the clinic entrance" },
+];
+
+function Instagram() {
+  return (
+    <section className="insta" id="instagram" aria-labelledby="insta-title">
+      <div className="insta__intro" data-reveal>
+        <p className="kicker">Instagram</p>
+        <h2 id="insta-title" className="display">
+          Follow the <em>glow</em>
+        </h2>
+        <p>
+          Elena shares new treatments, results and clinic news on Instagram almost every day.
+          Follow along, or send her a message there.
+        </p>
+        <a className="ig-cta" href={SITE.instagramHref} target="_blank" rel="noopener">
+          <span className="ig-cta__ring" aria-hidden="true">
+            <InstagramGlyph />
+          </span>
+          <span>
+            Follow <strong>{SITE.instagramHandle}</strong>
+          </span>
+        </a>
+      </div>
+      <ul className="insta__grid">
+        {INSTAGRAM_TILES.map((t, i) => (
+          <li key={t.src} className={`insta__tile insta__tile--${i + 1}`}>
+            <a href={SITE.instagramHref} target="_blank" rel="noopener" aria-label={`${t.alt}. View more on Instagram`}>
+              <img src={t.src} alt="" width={600} height={600} loading="lazy" decoding="async" />
+              <span className="insta__hover" aria-hidden="true">
+                <InstagramGlyph />
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 function Visit() {
   const status = useOpenStatus();
   return (
     <section className="visit" id="visit" aria-labelledby="visit-title">
       <div className="visit__bg" data-speed="0.32" aria-hidden="true">
-        <img src="/assets/hero-still.webp" alt="" width={1344} height={752} loading="lazy" decoding="async" />
+        <img src="/assets/laser-suite.webp" alt="" width={1920} height={1080} loading="lazy" decoding="async" />
       </div>
       <div className="visit__card" data-reveal>
         <p className="kicker">Visit</p>
@@ -589,6 +665,9 @@ function Footer() {
         <a href="#prices">Prices</a>
         <a href="#reviews">Reviews</a>
         <a href="#visit">Visit</a>
+        <a href={SITE.instagramHref} target="_blank" rel="noopener">
+          Instagram {SITE.instagramHandle}
+        </a>
       </div>
       <p className="footer__legal">© {new Date().getFullYear()} Elena Beauty Expert</p>
     </footer>

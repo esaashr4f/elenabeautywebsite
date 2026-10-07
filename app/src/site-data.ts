@@ -13,6 +13,8 @@ export const SITE = {
   area: "Woodford",
   postcode: "IG8 9AX",
   plusCode: "J22H+MP Woodford Green",
+  instagramHandle: "@elena__beautyexpert",
+  instagramHref: "https://www.instagram.com/elena__beautyexpert/",
   rating: "5.0",
   reviewCount: 14,
   directionsHref:
@@ -52,8 +54,8 @@ export const TREATMENTS: Treatment[] = [
     body:
       "From a 40-minute deep cleanse to HydraFacial and the Signature Deep Cleansing Facial + Peeling, each facial is tailored to your skin on the day, whether the goal is clearer, brighter or better hydrated skin.",
     from: "From £85",
-    image: "/assets/brush.webp",
-    alt: "A soft fan brush applying a treatment gel to glowing skin",
+    image: "/assets/facial-mask.webp",
+    alt: "A client relaxing as a cleansing mask is gently removed during a facial at the clinic",
   },
   {
     id: "laser",
@@ -62,8 +64,8 @@ export const TREATMENTS: Treatment[] = [
     body:
       "Carbon Laser Peeling for a deep cleanse and smoother texture, laser hair removal for the face or full body, and laser tattoo removal by area size, with five-session packages that save up to 15%.",
     from: "From £65",
-    image: "/assets/ipl-facial.webp",
-    alt: "A laser handpiece in use during a facial at the clinic",
+    image: "/assets/elena-laser.webp",
+    alt: "Elena, in protective glasses, performing a carbon laser peel in her treatment room",
   },
   {
     id: "renewal",
@@ -265,7 +267,7 @@ export const JSON_LD = JSON.stringify({
   description: SITE.description,
   telephone: "+447957941155",
   priceRange: "£65 to £650",
-  image: [SITE.url + "/assets/og.jpg", SITE.url + "/assets/clinic-room.webp"],
+  image: [SITE.url + "/assets/og.jpg", SITE.url + "/assets/laser-suite.webp", SITE.url + "/assets/clinic-room.webp"],
   logo: SITE.url + "/apple-touch-icon.png",
   address: {
     "@type": "PostalAddress",
@@ -275,6 +277,7 @@ export const JSON_LD = JSON.stringify({
     addressCountry: "GB",
   },
   hasMap: SITE.mapsHref,
+  sameAs: [SITE.instagramHref],
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",

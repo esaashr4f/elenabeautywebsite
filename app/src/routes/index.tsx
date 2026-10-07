@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 import { StructuredData } from "../components/StructuredData";
 import { useParallax, useReveal } from "../lib/parallax";
@@ -50,7 +50,48 @@ function Index() {
         <Visit />
       </main>
       <Footer />
+      <FloatingBook />
     </>
+  );
+}
+
+function BookLink({ className, children }: { className?: string; children: ReactNode }) {
+  return (
+    <a className={className} href={SITE.bookingHref} target="_blank" rel="noopener">
+      {children}
+      <span className="sr-only"> (opens Fresha in a new tab)</span>
+    </a>
+  );
+}
+
+// Phone-only booking button that appears once the hero has scrolled away and
+// steps aside again when the Visit section (with its own booking button) shows.
+function FloatingBook() {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const onScroll = () => {
+      const visit = document.getElementById("visit");
+      const pastHero = window.scrollY > window.innerHeight * 0.85;
+      const atVisit = visit ? visit.getBoundingClientRect().top < window.innerHeight * 0.6 : false;
+      setShow(pastHero && !atVisit);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return (
+    <div className={`float-book${show ? " is-shown" : ""}`} aria-hidden={!show}>
+      <a href={SITE.bookingHref} target="_blank" rel="noopener" tabIndex={show ? 0 : -1}>
+        <span className="float-book__dot" aria-hidden="true" />
+        Book now
+        <span className="sr-only"> (opens Fresha in a new tab)</span>
+      </a>
+      <a className="float-book__call" href={SITE.phoneHref} tabIndex={show ? 0 : -1} aria-label={`Call ${SITE.phoneDisplay}`}>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" />
+        </svg>
+      </a>
+    </div>
   );
 }
 
@@ -130,6 +171,7 @@ function Header() {
         <span className="arch-call__label">Call</span>
         <span className="arch-call__num">{SITE.phoneDisplay}</span>
       </a>
+      <BookLink className="book-pill">Book now</BookLink>
     </header>
   );
 }
@@ -187,11 +229,14 @@ function Hero() {
           you in a calm, spotless clinic on Warley Road. Open Monday to Saturday, 9am to 5pm.
         </p>
         <div className="hero__actions">
-          <a className="dew-call" href={SITE.phoneHref}>
+          <BookLink className="dew-call">
             <span className="dew-call__drop" aria-hidden="true" />
             <span className="dew-call__text">
-              Call to book <strong>{SITE.phoneDisplay}</strong>
+              Book online <strong>Choose a time</strong>
             </span>
+          </BookLink>
+          <a className="thread-link" href={SITE.phoneHref}>
+            Call {SITE.phoneDisplay}
           </a>
           <a className="thread-link" href={SITE.directionsHref} target="_blank" rel="noopener">
             Get directions
@@ -378,6 +423,12 @@ function Prices() {
               <span>{f.duration}</span>
               <strong>{f.price}</strong>
             </p>
+            <BookLink className="featured__book">
+              Book this treatment
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h13M13 6l6 6-6 6" />
+              </svg>
+            </BookLink>
           </article>
         ))}
       </div>
@@ -397,13 +448,19 @@ function Prices() {
       </div>
 
       <div className="prices__cta" data-reveal>
-        <p>Not sure which treatment is right for you? Elena will advise.</p>
-        <a className="dew-call dew-call--ink" href={SITE.phoneHref}>
+        <p>
+          Ready to book? Pick a time online.
+          <span className="prices__cta-sub">
+            Not sure which treatment is right for you? Call Elena on{" "}
+            <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a>.
+          </span>
+        </p>
+        <BookLink className="dew-call dew-call--ink">
           <span className="dew-call__drop" aria-hidden="true" />
           <span className="dew-call__text">
-            Call to book <strong>{SITE.phoneDisplay}</strong>
+            Book online <strong>See available times</strong>
           </span>
-        </a>
+        </BookLink>
       </div>
     </section>
   );
@@ -627,7 +684,10 @@ function Visit() {
           </div>
         </dl>
         <div className="visit__actions">
-          <a className="arch-cta" href={SITE.directionsHref} target="_blank" rel="noopener">
+          <BookLink className="arch-cta arch-cta--blush">
+            <span>Book now on Fresha</span>
+          </BookLink>
+          <a className="arch-cta arch-cta--line" href={SITE.directionsHref} target="_blank" rel="noopener">
             <span>Open directions in Google Maps</span>
           </a>
           <a className="ring-call" href={SITE.phoneHref}>
@@ -652,6 +712,7 @@ function Footer() {
       </div>
       <div className="footer__col">
         <h2>Contact</h2>
+        <BookLink>Book online</BookLink>
         <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a>
         <a href={SITE.directionsHref} target="_blank" rel="noopener">
           {SITE.street}, {SITE.locality} {SITE.postcode}

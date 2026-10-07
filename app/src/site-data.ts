@@ -13,6 +13,8 @@ export const SITE = {
   area: "Woodford",
   postcode: "IG8 9AX",
   plusCode: "J22H+MP Woodford Green",
+  bookingHref:
+    "https://www.fresha.com/en-GB/a/elena-beauty-expert-woodford-station-40-cavendish-ave-mlzr3b58/all-offer",
   instagramHandle: "@elena__beautyexpert",
   instagramHref: "https://www.instagram.com/elena__beautyexpert/",
   rating: "5.0",
@@ -278,6 +280,10 @@ export const JSON_LD = JSON.stringify({
   },
   hasMap: SITE.mapsHref,
   sameAs: [SITE.instagramHref],
+  potentialAction: {
+    "@type": "ReserveAction",
+    target: { "@type": "EntryPoint", urlTemplate: SITE.bookingHref },
+  },
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",

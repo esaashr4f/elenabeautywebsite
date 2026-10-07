@@ -678,10 +678,6 @@ function Visit() {
               </ul>
             </dd>
           </div>
-          <div>
-            <dt>Plus code</dt>
-            <dd>{SITE.plusCode}</dd>
-          </div>
         </dl>
         <div className="visit__actions">
           <BookLink className="arch-cta arch-cta--blush">

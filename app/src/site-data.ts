@@ -12,7 +12,6 @@ export const SITE = {
   locality: "Woodford Green",
   area: "Woodford",
   postcode: "IG8 9AX",
-  plusCode: "J22H+MP Woodford Green",
   bookingHref:
     "https://www.fresha.com/en-GB/a/elena-beauty-expert-woodford-station-40-cavendish-ave-mlzr3b58/all-offer",
   instagramHandle: "@elena__beautyexpert",

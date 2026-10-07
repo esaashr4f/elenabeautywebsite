@@ -1905,3 +1905,17 @@ body.site {
     font-size: 13px;
   }
 }
+
+@media (max-width: 760px) {
+  .hero__veil {
+    background:
+      linear-gradient(180deg, rgba(43, 26, 30, 0.6) 0%, rgba(43, 26, 30, 0.25) 30%, rgba(43, 26, 30, 0.55) 55%, rgba(43, 26, 30, 0.88) 100%),
+      linear-gradient(90deg, rgba(43, 26, 30, 0.45) 0%, rgba(43, 26, 30, 0.1) 100%);
+  }
+}
+@media (max-width: 560px) {
+  .brand__word {
+    white-space: nowrap;
+    font-size: 16px;
+  }
+}

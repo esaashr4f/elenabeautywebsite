@@ -1939,3 +1939,27 @@ body.site {
     opacity: 0;
   }
 }
+
+@media (max-width: 380px) {
+  .masthead {
+    gap: 10px;
+    padding-inline: 16px;
+  }
+  .brand {
+    gap: 7px;
+  }
+  .brand__mark {
+    width: 28px;
+    height: 28px;
+  }
+  .brand__word {
+    font-size: 15px;
+  }
+  .ig-link {
+    margin-right: -6px;
+  }
+  .book-pill {
+    margin-left: 4px;
+    padding: 9px 13px;
+  }
+}

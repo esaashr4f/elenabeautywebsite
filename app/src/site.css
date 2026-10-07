@@ -58,6 +58,10 @@ body.site {
   overflow-x: clip;
 }
 
+:where(.site) p {
+  margin: 0 0 1em;
+}
+
 .site img {
   display: block;
   max-width: 100%;
@@ -1219,8 +1223,9 @@ body.site {
     padding-bottom: 96px;
   }
   .hero__sprig {
-    top: 10%;
-    right: -60px;
+    top: 9%;
+    right: -54px;
+    width: 120px;
   }
   .hero__actions {
     flex-direction: column;

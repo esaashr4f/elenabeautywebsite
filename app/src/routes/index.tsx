@@ -3,7 +3,18 @@ import { useEffect, useRef, useState } from "react";
 
 import { StructuredData } from "../components/StructuredData";
 import { useParallax, useReveal } from "../lib/parallax";
-import { JSON_LD, REVIEWS, SITE, TREATMENTS } from "../site-data";
+import {
+  CLOSE_HOUR,
+  FEATURED,
+  HOURS,
+  JSON_LD,
+  MENU,
+  OPEN_HOUR,
+  REVIEWS,
+  SITE,
+  TREATMENTS,
+  type MenuItem,
+} from "../site-data";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -32,6 +43,7 @@ function Index() {
         <Hero />
         <About />
         <Treatments />
+        <Prices />
         <Clinic />
         <Reviews />
         <Visit />
@@ -87,6 +99,7 @@ function Header() {
       <nav className="masthead__nav" aria-label="Sections">
         <a href="#about">About</a>
         <a href="#treatments">Treatments</a>
+        <a href="#prices">Prices</a>
         <a href="#reviews">Reviews</a>
         <a href="#visit">Visit</a>
       </nav>
@@ -150,8 +163,8 @@ function Hero() {
           <span className="hero__line">to you.</span>
         </h1>
         <p className="hero__lede">
-          Personalised facials, laser and light treatments and massage, in a calm and spotless
-          clinic on Warley Road.
+          HydraFacial, carbon laser peels, PRP facials, laser hair and tattoo removal, tailored to
+          you in a calm, spotless clinic on Warley Road. Open Monday to Saturday, 9am to 5pm.
         </p>
         <div className="hero__actions">
           <a className="dew-call" href={SITE.phoneHref}>
@@ -258,8 +271,8 @@ function Treatments() {
           <em>face and body</em>
         </h2>
         <p>
-          Every treatment starts with a conversation about your skin. Call to talk through what is
-          right for you, and for prices and availability.
+          Every treatment starts with a conversation about your skin, so what you book is right for
+          you. See the full price list below, or call to talk it through.
         </p>
       </header>
       <ol className="treatments__list">
@@ -281,12 +294,130 @@ function Treatments() {
               <h3>{t.name}</h3>
               <p className="ritual__line">{t.line}</p>
               <p>{t.body}</p>
+              <p className="ritual__from">{t.from}</p>
             </div>
           </li>
         ))}
       </ol>
     </section>
   );
+}
+
+function PriceRow({ item }: { item: MenuItem }) {
+  return (
+    <li className="price-row">
+      <div className="price-row__top">
+        <h4>{item.name}</h4>
+        <span className="price-row__leader" aria-hidden="true" />
+        <p className="price-row__price">
+          {item.was ? (
+            <s>
+              <span className="sr-only">was </span>
+              {item.was}
+            </s>
+          ) : null}
+          <strong>
+            {item.was ? <span className="sr-only">now </span> : null}
+            {item.price}
+          </strong>
+        </p>
+      </div>
+      <p className="price-row__meta">
+        {item.duration ? <span>{item.duration}</span> : null}
+        {item.save ? <span className="price-row__save">{item.save}</span> : null}
+      </p>
+      <p className="price-row__note">{item.note}</p>
+    </li>
+  );
+}
+
+function Prices() {
+  return (
+    <section className="prices" id="prices" aria-labelledby="prices-title">
+      <header className="prices__head" data-reveal>
+        <p className="kicker">Price list</p>
+        <h2 id="prices-title" className="display">
+          Treatments <em>&amp; prices</em>
+        </h2>
+        <nav className="prices__jump" aria-label="Price list categories">
+          {MENU.map((g) => (
+            <a key={g.id} href={`#menu-${g.id}`}>
+              {g.title}
+            </a>
+          ))}
+        </nav>
+      </header>
+
+      <div className="featured" data-reveal>
+        {FEATURED.map((f, i) => (
+          <article key={f.name} className={`featured__card featured__card--${i + 1}`}>
+            <p className="featured__tag">Featured</p>
+            <h3>{f.name}</h3>
+            <p className="featured__note">{f.note}</p>
+            <p className="featured__foot">
+              <span>{f.duration}</span>
+              <strong>{f.price}</strong>
+            </p>
+          </article>
+        ))}
+      </div>
+
+      <div className="menu">
+        {MENU.map((g) => (
+          <section key={g.id} id={`menu-${g.id}`} className="menu__group" aria-labelledby={`menu-${g.id}-title`} data-reveal>
+            <h3 id={`menu-${g.id}-title`}>{g.title}</h3>
+            {g.intro ? <p className="menu__intro">{g.intro}</p> : null}
+            <ul>
+              {g.items.map((item) => (
+                <PriceRow key={item.name} item={item} />
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+
+      <div className="prices__cta" data-reveal>
+        <p>Not sure which treatment is right for you? Elena will advise.</p>
+        <a className="dew-call dew-call--ink" href={SITE.phoneHref}>
+          <span className="dew-call__drop" aria-hidden="true" />
+          <span className="dew-call__text">
+            Call to book <strong>{SITE.phoneDisplay}</strong>
+          </span>
+        </a>
+      </div>
+    </section>
+  );
+}
+
+// Live open/closed status in UK time, computed after hydration so the
+// server-rendered HTML never disagrees with the visitor's clock.
+function useOpenStatus() {
+  const [state, setState] = useState<{ today: number; label: string; open: boolean } | null>(null);
+  useEffect(() => {
+    const compute = () => {
+      const parts = new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Europe/London",
+        weekday: "short",
+        hour: "numeric",
+        minute: "numeric",
+        hourCycle: "h23",
+      }).formatToParts(new Date());
+      const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "";
+      const today = HOURS.findIndex((h) => h.short === get("weekday"));
+      const mins = Number(get("hour")) * 60 + Number(get("minute"));
+      const openDay = today >= 0 && HOURS[today].open !== null;
+      const open = openDay && mins >= OPEN_HOUR * 60 && mins < CLOSE_HOUR * 60;
+      let label: string;
+      if (open) label = "Open now, closes 5pm";
+      else if (openDay && mins < OPEN_HOUR * 60) label = "Closed now, opens 9am today";
+      else label = today === 5 || today === 6 ? "Closed now, opens 9am Monday" : "Closed now, opens 9am tomorrow";
+      setState({ today, label, open });
+    };
+    compute();
+    const id = window.setInterval(compute, 60_000);
+    return () => window.clearInterval(id);
+  }, []);
+  return state;
 }
 
 function Clinic() {
@@ -367,6 +498,7 @@ function Reviews() {
 }
 
 function Visit() {
+  const status = useOpenStatus();
   return (
     <section className="visit" id="visit" aria-labelledby="visit-title">
       <div className="visit__bg" data-speed="0.32" aria-hidden="true">
@@ -397,9 +529,20 @@ function Visit() {
           <div>
             <dt>Hours</dt>
             <dd>
-              Thursday: opens 9am
-              <br />
-              <span className="muted">For other days and times, please call ahead.</span>
+              {status ? (
+                <p className={`open-status${status.open ? " is-open" : ""}`} aria-live="polite">
+                  <span aria-hidden="true" />
+                  {status.label}
+                </p>
+              ) : null}
+              <ul className="hours">
+                {HOURS.map((h, i) => (
+                  <li key={h.day} className={status?.today === i ? "is-today" : undefined}>
+                    <span>{h.day}</span>
+                    <span>{h.open ?? "Closed"}</span>
+                  </li>
+                ))}
+              </ul>
             </dd>
           </div>
           <div>
@@ -437,11 +580,13 @@ function Footer() {
         <a href={SITE.directionsHref} target="_blank" rel="noopener">
           {SITE.street}, {SITE.locality} {SITE.postcode}
         </a>
+        <p className="footer__hours">Mon to Sat, 9am to 5pm. Closed Sunday.</p>
       </div>
       <div className="footer__col">
         <h2>Explore</h2>
         <a href="#about">About Elena</a>
         <a href="#treatments">Treatments</a>
+        <a href="#prices">Prices</a>
         <a href="#reviews">Reviews</a>
         <a href="#visit">Visit</a>
       </div>

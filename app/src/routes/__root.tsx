@@ -73,9 +73,9 @@ function buildHead(meta: AppMeta) {
     ],
     links: [
       { rel: "canonical", href: SITE.url + "/" },
-      { rel: "preload", href: "/fonts/fraunces.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
-      { rel: "preload", href: "/fonts/manrope.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
-      { rel: "preload", href: "/assets/hero-poster.webp", as: "image", fetchPriority: "high" },
+      { rel: "preload", href: "/fonts/fraunces.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" as const },
+      { rel: "preload", href: "/fonts/manrope.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" as const },
+      { rel: "preload", href: "/assets/hero-poster.webp", as: "image", fetchPriority: "high" as const },
       { rel: "stylesheet", href: appCss },
       { rel: "stylesheet", href: siteCss },
       { rel: "icon", href: favicon, type: "image/svg+xml" },

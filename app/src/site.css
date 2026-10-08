@@ -911,3 +911,15 @@ body.site {
     will-change: auto;
   }
 }
+
+/* align the header with the page's content column */
+.masthead {
+  padding-inline: max(var(--gutter), calc((100% - var(--max)) / 2 + var(--gutter)));
+}
+/* standard-height figures for prices and ratings */
+.price__amount,
+.featured__price,
+.hours,
+.hero__meta {
+  font-variant-numeric: lining-nums;
+}

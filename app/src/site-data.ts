@@ -37,57 +37,42 @@ export const HOURS: { day: string; short: string; open: string | null }[] = [
 export const OPEN_HOUR = 9;
 export const CLOSE_HOUR = 17;
 
-export type Treatment = {
-  id: string;
-  name: string;
-  line: string;
-  body: string;
-  from: string;
-  image: string;
-  alt: string;
-};
+export type Photo = { src: string; alt: string };
 
-export const TREATMENTS: Treatment[] = [
+export const GALLERY: (Photo & { caption: string; width: number; height: number; shape: "wide" | "tall" })[] = [
   {
-    id: "facials",
-    name: "Personalised facials",
-    line: "Cleanse, hydrate, brighten, renew",
-    body:
-      "From a 40-minute deep cleanse to HydraFacial and the Signature Deep Cleansing Facial + Peeling, each facial is tailored to your skin on the day, whether the goal is clearer, brighter or better hydrated skin.",
-    from: "From £85",
-    image: "/assets/facial-mask.webp",
-    alt: "A client relaxing as a cleansing mask is gently removed during a facial at the clinic",
+    src: "/assets/laser-suite.webp",
+    alt: "The laser treatment room with two laser machines, a fur-covered bed and lit shelves",
+    caption: "Laser treatment room",
+    width: 1920,
+    height: 1084,
+    shape: "wide",
   },
   {
-    id: "laser",
-    name: "Laser treatments",
-    line: "Carbon peels, hair and tattoo removal",
-    body:
-      "Carbon Laser Peeling for a deep cleanse and smoother texture, laser hair removal for the face or full body, and laser tattoo removal by area size, with five-session packages that save up to 15%.",
-    from: "From £65",
-    image: "/assets/elena-laser.webp",
-    alt: "Elena, in protective glasses, performing a carbon laser peel in her treatment room",
+    src: "/assets/elena-mirror.webp",
+    alt: "Elena holding a mirror for a client during a consultation",
+    caption: "Consultation with Elena",
+    width: 1400,
+    height: 879,
+    shape: "wide",
   },
   {
-    id: "renewal",
-    name: "PRP & skin renewal",
-    line: "Your own plasma, fresher skin",
-    body:
-      "The PRP facial uses your own plasma to support the skin's natural renewal, improving overall skin quality and texture and giving tired-looking skin a fresher, healthier appearance.",
-    from: "£210",
-    image: "/assets/serum.webp",
-    alt: "Frosted glass serum bottles on a travertine plinth",
+    src: "/assets/clinic-room.webp",
+    alt: "The facial room with a skylight, a treatment bed and shelves of skincare",
+    caption: "Facial room",
+    width: 1400,
+    height: 867,
+    shape: "wide",
   },
-  {
-    id: "sculpt",
-    name: "Sculpting & body",
-    line: "Lift the face, contour the body",
-    body:
-      "The Sculptural Face Lifting Massage lifts and defines facial contours in 50 relaxing minutes, while lipolytics target stubborn fat deposits for a more contoured silhouette.",
-    from: "From £65",
-    image: "/assets/honey.webp",
-    alt: "Golden honey ribboning from a dipper into a glass bowl",
-  },
+];
+
+export const INSTAGRAM_PHOTOS: Photo[] = [
+  { src: "/assets/elena-laser.webp", alt: "Elena performing a carbon laser peel" },
+  { src: "/assets/facial-mask.webp", alt: "A cleansing mask being removed during a facial" },
+  { src: "/assets/arch-lounge.webp", alt: "The backlit sign in the waiting area" },
+  { src: "/assets/elena-mirror.webp", alt: "Elena with a client during a consultation" },
+  { src: "/assets/laser-suite.webp", alt: "The laser treatment room" },
+  { src: "/assets/elena-portrait.webp", alt: "Elena at the clinic entrance" },
 ];
 
 export type MenuItem = {
@@ -99,7 +84,7 @@ export type MenuItem = {
   save?: string;
 };
 
-export type MenuGroup = { id: string; title: string; intro?: string; items: MenuItem[] };
+export type MenuGroup = { id: string; title: string; intro?: string; image?: Photo; items: MenuItem[] };
 
 export const FEATURED: MenuItem[] = [
   {
@@ -126,8 +111,11 @@ export const MENU: MenuGroup[] = [
   {
     id: "facials",
     title: "Facials",
-    intro:
-      "Personalised treatments to deeply cleanse, hydrate, brighten and rejuvenate, each tailored to your skin's individual needs.",
+    intro: "Each facial is adjusted to your skin on the day.",
+    image: {
+      src: "/assets/facial-mask.webp",
+      alt: "A client relaxing as a cleansing mask is removed during a facial",
+    },
     items: [
       {
         name: "Deep Cleansing Facial",
@@ -189,6 +177,10 @@ export const MENU: MenuGroup[] = [
     id: "tattoo-removal",
     title: "Laser tattoo removal",
     intro: "Single sessions priced by area size, or save with a course of five.",
+    image: {
+      src: "/assets/elena-laser.webp",
+      alt: "Elena, in protective glasses, using a laser handpiece on a client",
+    },
     items: [
       { name: "Small area, up to 5 cm", duration: "20 mins", note: "Single session.", price: "£65" },
       { name: "Medium area, up to 20 cm", duration: "25 mins", note: "Single session.", price: "£95" },
